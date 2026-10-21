@@ -122,6 +122,9 @@ namespace CodeWalker.Project
             WorldForm = worldForm;
 
             InitializeComponent();
+            var fivemExportMenu = new ToolStripMenuItem("Export as FiveM resource...");
+            fivemExportMenu.Click += (sender, e) => FiveMExport.Run(CurrentProjectFile, this);
+            FileMenu.DropDownItems.Add(fivemExportMenu);
 
             SetTheme(Settings.Default.ProjectWindowTheme, false);
             ShowDefaultPanels();
