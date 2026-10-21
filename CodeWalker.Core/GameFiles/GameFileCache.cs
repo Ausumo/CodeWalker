@@ -2059,6 +2059,8 @@ namespace CodeWalker.GameFiles
         }
 
 
+        public List<Archetype> GetAllArchetypes() { lock (archetypeDict) { return new List<Archetype>(archetypeDict.Values); } }
+
         public Archetype GetArchetype(uint hash)
         {
             if (!archetypesLoaded) return null;

@@ -123,6 +123,8 @@ namespace CodeWalker.Project
 
             InitializeComponent();
             var fivemExportMenu = new ToolStripMenuItem("Export as FiveM resource...");
+            var propBrowserMenu = new ToolStripMenuItem("Prop browser...", null, (sender, e) => new PropBrowserForm(this).Show(this));
+            FileMenu.DropDownItems.Add(propBrowserMenu);
             fivemExportMenu.Click += (sender, e) => FiveMExport.Run(CurrentProjectFile, this);
             FileMenu.DropDownItems.Add(fivemExportMenu);
 
@@ -2093,7 +2095,7 @@ namespace CodeWalker.Project
             }
         }
 
-        public YmapEntityDef NewEntity(YmapEntityDef copy = null, bool copyPosition = false, bool selectNew = true)
+        public YmapEntityDef NewEntity(YmapEntityDef copy = null, bool copyPosition = false, bool selectNew = true, string archetype = null)
         {
             if (copy != null)
             {
@@ -2127,7 +2129,7 @@ namespace CodeWalker.Project
             }
             else
             {
-                cent.archetypeName = new MetaHash(JenkHash.GenHash("prop_alien_egg_01"));
+                cent.archetypeName = new MetaHash(JenkHash.GenHash(archetype ?? "prop_alien_egg_01"));
                 cent.rotation = new Vector4(0, 0, 0, 1);
                 cent.scaleXY = 1.0f;
                 cent.scaleZ = 1.0f;
