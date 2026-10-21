@@ -127,6 +127,16 @@ namespace CodeWalker.Project
             FileMenu.DropDownItems.Add(propBrowserMenu);
             fivemExportMenu.Click += (sender, e) => FiveMExport.Run(CurrentProjectFile, this);
             FileMenu.DropDownItems.Add(fivemExportMenu);
+            var hideVanillaMenu = new ToolStripMenuItem("Hide vanilla objects in project area") { CheckOnClick = true };
+            hideVanillaMenu.Click += (sender, e) =>
+            {
+                var rend = WorldForm?.Renderer;
+                if (rend == null) return;
+                bool on = hideVanillaMenu.Checked && (CurrentProjectFile != null) && rend.UpdateHideVolume(CurrentProjectFile.YmapFiles);
+                hideVanillaMenu.Checked = on;
+                rend.HideVanillaInProject = on;
+            };
+            FileMenu.DropDownItems.Add(hideVanillaMenu);
 
             SetTheme(Settings.Default.ProjectWindowTheme, false);
             ShowDefaultPanels();

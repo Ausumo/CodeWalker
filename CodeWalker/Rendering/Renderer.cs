@@ -1984,6 +1984,7 @@ namespace CodeWalker.Rendering
                         rent.Renderable = rndbl;
 
                         if (HideEntities.ContainsKey(ent.EntityHash)) continue; //don't render hidden entities!
+                        if (IsHiddenByProject(ent)) continue;
 
                         RenderArchetype(ent.Archetype, ent, rent.Renderable, false);
                     }
@@ -2119,6 +2120,7 @@ namespace CodeWalker.Rendering
                     var arch = ent.Archetype;
 
                     if (HideEntities.ContainsKey(ent.EntityHash)) continue; //don't render hidden entities!
+                        if (IsHiddenByProject(ent)) continue;
 
                     RenderArchetype(arch, ent, rent.Renderable, false);
                 }
@@ -3570,6 +3572,36 @@ namespace CodeWalker.Rendering
 
         }
 
+
+        // Hides vanilla (non-project) entities inside the bounding box of the given project ymaps.
+        public bool HideVanillaInProject = false;
+        private Vector3 hideVolMin, hideVolMax;
+        public bool UpdateHideVolume(IEnumerable<YmapFile> projymaps, float margin = 15.0f)
+        {
+            bool any = false;
+            var mn = new Vector3(float.MaxValue);
+            var mx = new Vector3(float.MinValue);
+            foreach (var y in projymaps)
+            {
+                if (y?.AllEntities == null) continue;
+                foreach (var e in y.AllEntities)
+                {
+                    mn = Vector3.Min(mn, e.Position);
+                    mx = Vector3.Max(mx, e.Position);
+                    any = true;
+                }
+            }
+            hideVolMin = mn - new Vector3(margin);
+            hideVolMax = mx + new Vector3(margin);
+            return any;
+        }
+        private bool IsHiddenByProject(YmapEntityDef ent)
+        {
+            if (!HideVanillaInProject) return false;
+            if (!string.IsNullOrEmpty(ent.Ymap?.FilePath)) return false; //project entities stay visible
+            var p = ent.Position;
+            return p.X >= hideVolMin.X && p.Y >= hideVolMin.Y && p.Z >= hideVolMin.Z && p.X <= hideVolMax.X && p.Y <= hideVolMax.Y && p.Z <= hideVolMax.Z;
+        }
 
         public void RenderHideEntity(YmapEntityDef ent)
         {
