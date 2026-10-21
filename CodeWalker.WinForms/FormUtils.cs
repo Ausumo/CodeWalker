@@ -234,7 +234,7 @@ namespace CodeWalker
 
         public static DialogResult ShowDialogNew(this FolderBrowserDialog fbd)
         {
-            return ShowDialogNew(fbd, (IntPtr)0);
+            return fbd.ShowDialog(); //.NET 8's FolderBrowserDialog already uses the modern dialog
         }
         public static DialogResult ShowDialogNew(this FolderBrowserDialog fbd, IntPtr hWndOwner)
         {
