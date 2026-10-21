@@ -15,6 +15,18 @@ namespace CodeWalker
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        static void LogCrash(Exception ex)
+        {
+            try
+            {
+                var nl = Environment.NewLine;
+                var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
+                File.AppendAllText(file, DateTime.Now.ToString("u") + nl + ex + nl + nl);
+                MessageBox.Show("An error occurred and was logged to crash.log:" + nl + nl + (ex?.Message ?? "unknown"), "CodeWalker", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch { }
+        }
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -51,6 +63,10 @@ namespace CodeWalker
                     }
                 }
             }
+
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += (s, e) => LogCrash(e.Exception);
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => LogCrash(e.ExceptionObject as Exception);
 
             EnsureJumpList();
 

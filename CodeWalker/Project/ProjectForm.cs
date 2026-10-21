@@ -1993,7 +1993,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetYmapHasChanged(false);
@@ -3360,7 +3360,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetYtypHasChanged(false);
@@ -4055,7 +4055,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetYbnHasChanged(false);
@@ -4683,7 +4683,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetYndHasChanged(false);
@@ -4969,7 +4969,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetYnvHasChanged(false);
@@ -5150,7 +5150,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetTrainTrackHasChanged(false);
@@ -5400,7 +5400,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetScenarioHasChanged(false);
@@ -6368,7 +6368,7 @@ namespace CodeWalker.Project
 
             if (data != null)
             {
-                File.WriteAllBytes(filepath, data);
+                SafeSave.WriteAllBytes(filepath, data);
             }
 
             SetAudioFileHasChanged(false);
