@@ -3586,8 +3586,9 @@ namespace CodeWalker.Rendering
                 if (y?.AllEntities == null) continue;
                 foreach (var e in y.AllEntities)
                 {
-                    mn = Vector3.Min(mn, e.Position);
-                    mx = Vector3.Max(mx, e.Position);
+                    var rad = new Vector3(Math.Max(e.BSRadius, 0.0f));
+                    mn = Vector3.Min(mn, e.Position - rad);
+                    mx = Vector3.Max(mx, e.Position + rad);
                     any = true;
                 }
             }
@@ -3595,9 +3596,18 @@ namespace CodeWalker.Rendering
             hideVolMax = mx + new Vector3(margin);
             return any;
         }
+        public Func<IEnumerable<YmapFile>> ProjectYmapProvider;
+        private int hideVolTick = 0;
+        private bool hideVolValid = false;
         private bool IsHiddenByProject(YmapEntityDef ent)
         {
             if (!HideVanillaInProject) return false;
+            if ((Environment.TickCount - hideVolTick > 1000) && (ProjectYmapProvider != null))
+            {
+                hideVolTick = Environment.TickCount;
+                try { hideVolValid = UpdateHideVolume(ProjectYmapProvider()); } catch { }
+            }
+            if (!hideVolValid) return false;
             if (!string.IsNullOrEmpty(ent.Ymap?.FilePath)) return false; //project entities stay visible
             var p = ent.Position;
             return p.X >= hideVolMin.X && p.Y >= hideVolMin.Y && p.Z >= hideVolMin.Z && p.X <= hideVolMax.X && p.Y <= hideVolMax.Y && p.Z <= hideVolMax.Z;
