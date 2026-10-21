@@ -51,4 +51,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\icons\**\*.*" Link="icons\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Shaders\**\*.*" Link="Shaders\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
