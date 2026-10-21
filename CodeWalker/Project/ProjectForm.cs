@@ -123,17 +123,19 @@ namespace CodeWalker.Project
 
             InitializeComponent();
             var fivemExportMenu = new ToolStripMenuItem("Export as FiveM resource...");
+            OptionsRenderGtavMapMenu.Checked = false; //show only the project's own map by default, like old CodeWalker
+            hidegtavmap = true;
             var propBrowserMenu = new ToolStripMenuItem("Prop browser...", null, (sender, e) => new PropBrowserForm(this).Show(this));
             FileMenu.DropDownItems.Add(propBrowserMenu);
             fivemExportMenu.Click += (sender, e) => FiveMExport.Run(CurrentProjectFile, this);
             FileMenu.DropDownItems.Add(fivemExportMenu);
-            var hideVanillaMenu = new ToolStripMenuItem("Hide vanilla objects in project area") { CheckOnClick = true, Checked = true };
+            var hideVanillaMenu = new ToolStripMenuItem("Hide vanilla objects in project area") { CheckOnClick = true, Checked = false };
             hideVanillaMenu.Click += (sender, e) => { if (WorldForm?.Renderer != null) WorldForm.Renderer.HideVanillaInProject = hideVanillaMenu.Checked; };
             FileMenu.DropDownItems.Add(hideVanillaMenu);
             if (WorldForm?.Renderer != null)
             {
                 WorldForm.Renderer.ProjectYmapProvider = () => CurrentProjectFile?.YmapFiles;
-                WorldForm.Renderer.HideVanillaInProject = true;
+                WorldForm.Renderer.HideVanillaInProject = false;
             }
             FormClosed += (sender, e) =>
             {
